@@ -40,6 +40,8 @@
 ;; (refer 'symbol :exclude '(x y z))
 ;; [symbol :rename {x x1 y y1}] -->
 ;; (refer 'symbol :rename {x x1 y y1}
+
+
 (defn lq [arg]
   (list 'quote arg))
 
@@ -61,7 +63,7 @@
       :rename
       (list 'refer (lq (spec 0)) :rename (lq (spec 2)))
       :import
-      (list 'import ~(spec 0)))))
+      (list 'import* (name (spec 0))))))
 
 (defn namespace-process [list]
   (doall (map (comp eval spec-expand) list)))
@@ -74,6 +76,12 @@
 
 (defn namespace-test-n [& list]
   (doall (map namespace-test list)))
+
+
+(defmacro imp [& symbols]
+  `(list
+    ~@(for [n# symbols]
+        `['~n# :import])))
 
 (defmacro req [& symbols]
   `(list
@@ -124,6 +132,7 @@
   (conj
    (vec spec-list)
    (vec (list (ffirst spec-list) :rename rename-map))))
+
 
 
 (defmacro newnamespace [ns & args]

@@ -83,3 +83,22 @@
  bob
  (req namespace.imports)
  (namespace.imports/tawny-read))
+
+
+;; importing is possible also
+(newnamespacet
+ bob
+ (imp java.util.Set))
+
+;; or several at once
+(newnamespacet
+ bob
+ (imp java.util.Set
+      java.util.List))
+
+(newnamespacet
+ bob
+ ;; prefixes work as expected
+ (prefix
+  'java.util
+  (imp Set List Collection)))
