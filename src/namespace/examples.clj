@@ -1,9 +1,12 @@
 (ns namespace.examples
   (:use [namespace.namespace]))
 
+
 ;; each of these defines a new namespace and adds requires and the like.
-;; In practice, you don't want to do this --- just macroexpand each form. They
-;; all expand at compile time to the primitive functions in clojure.core
+;; currently they use "newnamespacet" which returns a list of the functions
+;; that will be called. The newnamespace macro actually does some work (i.e.
+;; calling the functions and setting the namespace), but is irritating to use
+;; in test environments as it resets the namespace.
 
 (newnamespacet
   bob
@@ -68,10 +71,10 @@
   (use-rename (req data) '{b c})
   'a))
 
-;; The interface is fully programmatic -- we can add new functionality as we choose.
-;; In this case, we define in namespace.imports some standard "profiles" which
-;; people might use. First we require this namespace, then we use one of the
-;; functions in it.
+;; The interface is fully programmatic -- we can add new functionality as we
+;; choose. In this case, we define in namespace.imports some standard
+;; "profiles" which people might use. First we require this namespace, then we
+;; use one of the functions in it.
 
 ;; when running this with newnamespacet, we have to run the require
 ;; externally, because the newnamespacet doesn't actually do the requiring, so
@@ -98,7 +101,8 @@
 
 (newnamespacet
  bob
- ;; prefixes work as expected
+ ;; adding prefixes works with the same functions as for namespaces.
  (prefix
   'java.util
   (imp Set List Collection)))
+

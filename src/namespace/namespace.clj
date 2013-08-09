@@ -46,7 +46,6 @@
   (list 'quote arg))
 
 (defn spec-expand [spec]
-  (println "spec" spec)
   (if
       (= 1 (count spec))
     (list 'require (lq (spec 0)))
